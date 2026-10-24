@@ -1,0 +1,31 @@
+[project]
+name = "bantaylubak-backend"
+version = "0.1.0"
+description = "BantayLubak pothole detection and event API"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+    "pillow",
+    "ultralytics",
+    "torch",
+    "torchvision",
+]
+
+# CPU-only PyTorch: the target laptop has no CUDA GPU, and CUDA wheels are several GB.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+torchvision = [{ index = "pytorch-cpu" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[dependency-groups]
+dev = ["pytest", "httpx"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
