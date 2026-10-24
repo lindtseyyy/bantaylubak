@@ -6,12 +6,15 @@ from typing import Literal
 
 
 BACKEND_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_WEIGHTS = (
+    BACKEND_ROOT.parent / "training-results" / "models" / "yolo26s-seg-combined_20261023-1437.pt"
+)
 
 
 @dataclass(frozen=True)
 class Settings:
     data_dir: Path = BACKEND_ROOT / "data"
-    weights_path: Path = BACKEND_ROOT / "models" / "pothole-yolo26s-seg.pt"
+    weights_path: Path = DEFAULT_WEIGHTS
     conf_threshold: float = 0.5
     detector_mode: Literal["auto", "placeholder", "yolo"] = "auto"
     placeholder_every: int = 20
@@ -34,11 +37,7 @@ def get_settings() -> Settings:
         data_dir=Path(os.environ.get("BANTAYLUBAK_DATA_DIR", BACKEND_ROOT / "data"))
         .expanduser()
         .resolve(),
-        weights_path=Path(
-            os.environ.get(
-                "BANTAYLUBAK_WEIGHTS", BACKEND_ROOT / "models" / "pothole-yolo26s-seg.pt"
-            )
-        )
+        weights_path=Path(os.environ.get("BANTAYLUBAK_WEIGHTS", DEFAULT_WEIGHTS))
         .expanduser()
         .resolve(),
         conf_threshold=float(os.environ.get("BANTAYLUBAK_CONF", "0.5")),

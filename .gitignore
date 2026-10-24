@@ -6,5 +6,6 @@ __pycache__/
 backend/data/
 model/dataset/
 *.pt
+!training-results/models/*.pt
 *.onnx
 .DS_Store
